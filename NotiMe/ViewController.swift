@@ -36,10 +36,8 @@ class ViewController: UIViewController {
                     } else {
                         self?.requestToggle.isOn = false
                     }
-                    
-                    self?.pushPermissionLabel.text =
-                        "Push noti Permission: \(settings.authorizationStatus == .authorized ? "Yes" : "No")"
-                    
+
+                    self?.pushPermissionLabel.text = "Push noti Permission: " + settings.authorizationStatus.toString()
                     self?.alertLabel.text = "Alert: \(settings.alertSetting == .enabled ? "Yes" : "No")"
                     self?.soundLabel.text = "Sound: \(settings.soundSetting == .enabled ? "Yes" : "No")"
                     self?.badgeLabel.text = "Badge: \(settings.badgeSetting == .enabled ? "Yes" : "No")"
@@ -69,6 +67,9 @@ class ViewController: UIViewController {
                             preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                         alert.addAction(UIAlertAction(title: "Settings", style: .default) { action in
+                          
+                            // navigate to home
+                            // and ...
                             if let appSettings = URL(string: UIApplication.openSettingsURLString) {
                                 UIApplication.shared.open(appSettings, options: [:], completionHandler: nil)
                             }
@@ -77,6 +78,23 @@ class ViewController: UIViewController {
                     }
                 }
             }
+    }
+}
+
+extension UNAuthorizationStatus {
+    
+    func toString() -> String {
+        switch self {
+        case .authorized:
+            return "Permitted"
+        case .denied:
+            return "Denined"
+        case .notDetermined:
+            return "Not Determind"
+        default:
+            return "Unknow"
+        }
+
     }
 }
 
